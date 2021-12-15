@@ -1,0 +1,2 @@
+How to Create a Skeleton Screen Loading Effect in HTML, CSS, and JavaScript
+  https://www.makeuseof.com/css-skeleton-screen-loading-effect/
