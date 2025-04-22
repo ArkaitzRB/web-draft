@@ -17,6 +17,9 @@
   <script>
     const msalConfig = {
       auth: {
+        //clientId: "TU_CLIENT_ID", // 🔁 Reemplaza con tu Azure AD app client ID
+        //authority: "https://login.microsoftonline.com/TU_TENANT_ID", // 🔁 o common / organizations
+        //redirectUri: window.location.href // o una URL específica
         clientId: "0413c74a-dcd0-4f7a-8a4f-63d4a5df140a", // 🔁 Reemplaza con tu Azure AD app client ID
         authority: "https://login.microsoftonline.com/common", // 🔁 o common / organizations
         redirectUri: window.location.href // o una URL específica
@@ -75,7 +78,8 @@
       });
       
       const datos = {
-        person:personId//19790,
+        person:personId,
+        //person:19790,
         space:24037,
         type:"desk",
         deskId:29281,
