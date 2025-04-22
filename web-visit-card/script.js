@@ -3,9 +3,7 @@ skeletons.forEach((skeleton) => {
   setTimeout(() => {
   skeleton.classList.remove('skeleton')
   }, 4000)
-})
-
-document.getElementById("btnEnviar").addEventListener("click", function(e) {
+  
       e.preventDefault(); // Evita que se recargue la página
 
       const datos = {
