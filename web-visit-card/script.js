@@ -5,7 +5,7 @@ skeletons.forEach((skeleton) => {
   }, 4000)
 })
 
-document.addEventListener("submit", function(e) {
+document.getElementById("btnEnviar").addEventListener("click", function(e) {
       e.preventDefault(); // Evita que se recargue la página
 
       const datos = {
