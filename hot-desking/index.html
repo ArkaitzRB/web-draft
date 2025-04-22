@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Azure Login + POST</title>
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+</head>
+<body>
+  <h1>Iniciar sesión y enviar datos</h1>
+
+  <button id="btnLogin">Iniciar sesión con Azure</button><br><br>
+
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" name="nombre" required>
+  <button id="btnEnviar">Enviar</button>
+
+  <script>
+    const msalConfig = {
+      auth: {
+        clientId: "TU_CLIENT_ID", // 🔁 Reemplaza con tu Azure AD app client ID
+        authority: "https://login.microsoftonline.com/TU_TENANT_ID", // 🔁 o common / organizations
+        redirectUri: window.location.href // o una URL específica
+      }
+    };
+
+    const loginRequest = {
+      scopes: ["user.read"] // 🔁 Puedes ajustar los scopes según tu API
+    };
+
+    const msalInstance = new msal.PublicClientApplication(msalConfig);
+    let accessToken = null;
+
+    document.getElementById("btnLogin").addEventListener("click", async () => {
+      try {
+        const loginResponse = await msalInstance.loginPopup(loginRequest);
+        const tokenResponse = await msalInstance.acquireTokenSilent(loginRequest);
+        accessToken = tokenResponse.accessToken;
+        alert("Inicio de sesión exitoso");
+      } catch (error) {
+        console.error(error);
+        alert("Error durante el inicio de sesión");
+      }
+    });
+
+    document.getElementById("btnEnviar").addEventListener("click", function(e) {
+      e.preventDefault();
+
+      if (!accessToken) {
+        alert("Primero debes iniciar sesión");
+        return;
+      }
+      
+      const datos = {
+        person:19790,
+        space:24037,
+        type:"desk",
+        deskId:29281,
+        from:"2025-05-06T07:00:00.000Z",
+        to:"2025-05-06T11:00:00.000Z"
+      };
+
+      fetch('https://ejemplo.com/api/endpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(datos)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Respuesta del servidor:", data);
+        alert("Datos enviados con éxito");
+      })
+      .catch(error => {
+        console.error("Error al enviar los datos:", error);
+        alert("Hubo un error");
+      });
+    });
+  </script>
+</body>
+</html>
